@@ -19,7 +19,7 @@ def replace_text(target_texts)
   git_repository.grep(target_text_before).each do |results|
     results[0].scan(/\b:[^;]+/).each do |result|
       target_file = result.split(':').last
-      target_file_text = File.open(target_file, "r") { |f| f.read() }
+      target_file_text = File.open(target_file, "r") { |f| f.read }
 
       target_file_text.gsub!(target_text_before, target_text_after)
       File.open(target_file, "w") { |f| f.write(target_file_text) }
