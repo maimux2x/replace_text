@@ -10,7 +10,7 @@ def repository
   Git.open(current_dirctory)
 end
 
-def aaa_text(target_texts)
+def replace_text(target_texts)
   target_text_before = target_texts[0]
   target_text_after = target_texts[1]
 
@@ -28,4 +28,4 @@ def aaa_text(target_texts)
 end
 
 target_texts = ARGV
-aaa_text(target_texts)
+replace_text(target_texts)
