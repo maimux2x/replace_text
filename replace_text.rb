@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require "git"
 
 def current_dirctory
@@ -8,7 +10,7 @@ def repository
   Git.open(current_dirctory)
 end
 
-def replace_text(target_texts)
+def aaa_text(target_texts)
   target_text_before = target_texts[0]
   target_text_after = target_texts[1]
 
@@ -26,4 +28,4 @@ def replace_text(target_texts)
 end
 
 target_texts = ARGV
-replace_text(target_texts)
+aaa_text(target_texts)
