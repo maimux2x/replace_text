@@ -1,31 +1,18 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-require "git"
+require 'git'
 
-def current_dirctory
-  Dir.getwd
-end
+def replace_text(pattern, replace)
+  git = Git.open(Dir.getwd)
+  matches = git.grep(pattern).flat_map { |match| match.first.scan(/\b:[^;]+/) }
+  file_paths = matches.map { |str| str.split(':').last }.uniq
 
-def repository
-  Git.open(current_dirctory)
-end
+  file_paths.each do |file_path|
+    replaced_text = File.read(file_path).gsub(pattern, replace)
 
-def replace_text(target_texts)
-  target_text_before = target_texts[0]
-  target_text_after = target_texts[1]
-
-  git_repository = repository
-
-  git_repository.grep(target_text_before).each do |results|
-    results[0].scan(/\b:[^;]+/).each do |result|
-      target_file = result.split(':').last
-      target_file_text = File.open(target_file, "r") { |f| f.read }
-
-      target_file_text.gsub!(target_text_before, target_text_after)
-      File.open(target_file, "w") { |f| f.write(target_file_text) }
-    end
+    File.write(file_path, replaced_text)
   end
 end
 
-target_texts = ARGV
-replace_text(target_texts)
+replace_text(*ARGV)
